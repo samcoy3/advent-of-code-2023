@@ -1,16 +1,14 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.35.0.
+-- This file has been generated from package.yaml by hpack version 0.35.2.
 --
 -- see: https://github.com/sol/hpack
---
--- hash: 7a7f9450dea923a5226bc8f430781bec861ad44d76f67c5d21935198dc590e29
 
-name:           aoc-template
+name:           aoc2023
 version:        2023.0
-description:    A template for Advent of Code projects in Haskell
-homepage:       https://github.com/samcoy3/advent-of-code-template#readme
-bug-reports:    https://github.com/samcoy3/advent-of-code-template/issues
+description:    My Advent of Code solutions for 2023, written in Haskell.
+homepage:       https://github.com/samcoy3/advent-of-code-2023#readme
+bug-reports:    https://github.com/samcoy3/advent-of-code-2023/issues
 author:         Sam Coy
 maintainer:     samcoy3@gmail.com
 copyright:      2023 Sam Coy
@@ -22,7 +20,7 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/samcoy3/advent-of-code-template
+  location: https://github.com/samcoy3/advent-of-code-2023
 
 library
   exposed-modules:
@@ -57,7 +55,7 @@ library
       Util.Parsers
       Util.Util
   other-modules:
-      Paths_aoc_template
+      Paths_aoc2023
   hs-source-dirs:
       src
   default-extensions:
@@ -82,10 +80,10 @@ library
     , vector
   default-language: Haskell2010
 
-executable aoc-template-exe
+executable aoc2023-exe
   main-is: Main.hs
   other-modules:
-      Paths_aoc_template
+      Paths_aoc2023
   hs-source-dirs:
       app
   default-extensions:
@@ -99,7 +97,7 @@ executable aoc-template-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N4 -with-rtsopts=-qa -with-rtsopts=-C0 -funfolding-use-threshold=16 -fexcess-precision -optc-O3 -optc-ffast-math -O2
   build-depends:
       ansi-terminal
-    , aoc-template
+    , aoc2023
     , attoparsec
     , base >=4.7 && <5
     , containers
