@@ -1,19 +1,13 @@
 module Days.Day01 (runDay) where
 
 {- ORMOLU_DISABLE -}
-import Data.List
-import Data.Map.Strict (Map)
-import qualified Data.Map.Strict as Map
-import Data.Maybe
-import Data.Set (Set)
-import qualified Data.Set as Set
-import Data.Vector (Vector)
-import qualified Data.Vector as Vec
-import qualified Util.Util as U
+import Control.Applicative (many, (<|>))
+import Data.Either (rights)
+import Data.Functor (($>))
 
 import qualified Program.RunDay as R (runDay, Day)
+import Data.Attoparsec.Combinator (lookAhead)
 import Data.Attoparsec.Text
-import Data.Void
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
@@ -21,19 +15,47 @@ runDay = R.runDay inputParser partA partB
 
 ------------ PARSER ------------
 inputParser :: Parser Input
-inputParser = error "Not implemented yet!"
+inputParser =
+  many1 readDigit
+    `sepBy1` (many letter *> endOfLine)
+  where
+    readDigit =
+      (Right . read . pure <$> digit)
+        <|> Left <$> wordDigit
+        <|> letter *> readDigit
+
+    -- Lookahead necessary here because words can overlap
+    -- e.g. "eightwo"
+    wordDigit =
+      lookAhead
+        ( ("one" $> 1)
+            <|> ("two" $> 2)
+            <|> ("three" $> 3)
+            <|> ("four" $> 4)
+            <|> ("five" $> 5)
+            <|> ("six" $> 6)
+            <|> ("seven" $> 7)
+            <|> ("eight" $> 8)
+            <|> ("nine" $> 9)
+        )
+        <* letter
 
 ------------ TYPES ------------
-type Input = Void
+-- `Left` digits are letters; `Right` digits are numbers
+type Input = [[Either Int Int]]
 
-type OutputA = Void
+type OutputA = Int
 
-type OutputB = Void
+type OutputB = Int
 
 ------------ PART A ------------
 partA :: Input -> OutputA
-partA = error "Not implemented yet!"
+partA = sum . map ((\l -> 10 * head l + last l) . rights)
 
 ------------ PART B ------------
 partB :: Input -> OutputB
-partB = error "Not implemented yet!"
+partB = sum . map ((\l -> 10 * head l + last l) . map unwrapEither)
+  where
+    unwrapEither = \case
+      Left i -> i
+      Right i -> i
